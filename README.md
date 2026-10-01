@@ -62,7 +62,7 @@ C (padrão **C11**), compilando **sem warnings** com `gcc -Wall -Wextra -std=c11
 ```
 .
 ├── data/
-│   └── livros.csv        # catálogo (id,titulo,autor,ano)
+│   └── livros.csv        # catálogo (id,nome,descricao,tipo)
 ├── src/
 │   ├── livro.h / livro.c       # struct Livro e leitura do CSV
 │   ├── bucket.h / bucket.c     # bucket sort + insertion sort
