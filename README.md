@@ -83,7 +83,40 @@ id,titulo,autor,ano
 
 ## 5. Como executar
 
+A aplicação tem três peças: o programa em C faz a ordenação, o `server.py`
+executa esse programa e serve a página, e a página mostra o resultado.
 
+```bash
+make                    # compila e gera o executável "livraria"
+python3 server.py       # sobe o servidor em http://localhost:8000
+```
+
+Depois abra **http://localhost:8000** no navegador. A página começa
+mostrando só a seção **Chegada** (os livros na ordem do CSV); o botão
+**Visualizar livros** revela a **Estante** com os 27 baldes.
+
+O formulário *Adicionar livro* grava no fim do `data/livros.csv` e recarrega
+os dados — o livro novo aparece na chegada. Para parar o servidor, `Ctrl+C`.
+
+Rodar o programa em C sozinho, sem o servidor, imprime o JSON no terminal:
+
+```bash
+./livraria data/livros.csv
+```
+
+### Observações de ambiente
+
+- **Não há compilador instalado no Windows desta máquina.** Compile pelo
+  WSL (`wsl`, depois `cd /mnt/d/.Faculdade/G37_Ordenacao_EDA2-2026.2`), que
+  tem gcc e make. Para um gcc nativo, `winget install -e --id
+  BrechtSanders.WinLibs.POSIX.UCRT` — o comando passa a ser `mingw32-make`.
+- No Windows o comando do Python geralmente é `python server.py`, não
+  `python3`. O `server.py` detecta sozinho se o executável é `livraria.exe`
+  ou `livraria`.
+- O servidor escuta só em `127.0.0.1`: é uma aplicação local, não fica
+  exposta na rede.
+- Se a página mostrar *"Executavel 'livraria' nao encontrado"*, falta rodar
+  o `make`.
 
 ## 6. Roteiro de desenvolvimento
 
