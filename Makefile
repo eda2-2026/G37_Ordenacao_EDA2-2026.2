@@ -5,9 +5,9 @@ CFLAGS  = -Wall -Wextra -std=c11
 SRCDIR  = src
 BIN     = livraria
 
-SRC     = $(SRCDIR)/livro.c $(SRCDIR)/main.c
+SRC     = $(SRCDIR)/livro.c $(SRCDIR)/bucket.c $(SRCDIR)/main.c
 OBJ     = $(SRC:.c=.o)
-HEADERS = $(SRCDIR)/livro.h
+HEADERS = $(SRCDIR)/livro.h $(SRCDIR)/bucket.h
 
 all: $(BIN)
 

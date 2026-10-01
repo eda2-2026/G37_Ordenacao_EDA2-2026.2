@@ -2,13 +2,13 @@
 #include <string.h>
 #include <ctype.h>
 
-#define NUM_BALDES 27 
+#include "bucket.h"   
 
-void insertionSort(char *bucket[], int size) {
+void insertionSort(Livro *bucket[], int size) {
     for (int i = 1; i < size; ++i) {
-        char *key = bucket[i];
+        Livro *key = bucket[i];
         int j = i - 1;
-        while (j >= 0 && strcmp(bucket[j], key) > 0) {
+        while (j >= 0 && strcmp(bucket[j]->nome, key->nome) > 0) {
             bucket[j + 1] = bucket[j];
             j--;
         }
@@ -23,12 +23,12 @@ int indiceBalde(const char *titulo) {
     return toupper(c) - 'A' + 1;       /* A = 1, B = 2, ..., Z = 26 */
 }
 
-void bucketSort(char *arr[], int n) {
-    char *baldes[NUM_BALDES][n];
+void bucketSort(Livro *arr[], int n) {
+    Livro *baldes[NUM_BALDES][n];
     int cont[NUM_BALDES] = {0};
 
     for (int i = 0; i < n; i++) {
-        int b = indiceBalde(arr[i]);
+        int b = indiceBalde(arr[i]->nome);
         baldes[b][cont[b]] = arr[i];
         cont[b]++;
     }
