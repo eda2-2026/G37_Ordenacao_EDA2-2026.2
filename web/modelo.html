@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A livraria</title>
+
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 56px 24px 64px;
+  background-color: #f3ece0;
+  background-image: repeating-linear-gradient(
+      0deg, rgba(43, 36, 32, .022) 0 1px, transparent 1px 4px);
+  color: #2b2420;
+  font-family: "Inter", sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+
+header {
+  margin-bottom: 52px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid rgba(43, 36, 32, .18);
+}
+
+h1 {
+  margin: 0;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-weight: 500;
+  font-size: 2.7rem;
+  letter-spacing: .01em;
+}
+
+.linha-fina {
+  margin: 8px 0 0;
+  font-size: 11px;
+  font-weight: 300;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: rgba(43, 36, 32, .55);
+}
+
+section { margin-bottom: 60px; }
+
+h2 {
+  margin: 0;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-weight: 500;
+  font-size: 1.6rem;
+}
+
+.nota {
+  margin: 2px 0 26px;
+  font-size: 12px;
+  font-weight: 300;
+  color: rgba(43, 36, 32, .55);
+}
+
+.lombada {
+  writing-mode: vertical-rl;   /* gira o texto: le-se de cima para baixo */
+  width: 30px;
+  padding: 12px 0;
+  /* com o texto girado, o line-height passa a valer na HORIZONTAL.
+     Igualando-o a largura, o titulo fica centrado na lombada. */
+  line-height: 30px;
+  font-size: 11.5px;
+  font-weight: 300;
+  letter-spacing: .05em;
+  text-align: center;          /* centraliza o titulo no eixo vertical */
+  color: #f3ece0;              /* creme sobre a cor do tipo */
+  white-space: nowrap;         /* nunca quebra o titulo em duas colunas */
+  overflow: hidden;            /* titulo maior que a altura e cortado */
+  border-radius: 1px;
+  transform-origin: bottom center;
+  transition: transform .18s ease;
+  /* filetes claros no topo e no pe + sombra na base, como uma lombada real */
+  box-shadow: inset 0  6px 0 -5px rgba(243, 236, 224, .45),
+              inset 0 -6px 0 -5px rgba(5, 5, 4, 0.45),
+              inset -2px 0 0 -1px rgba(0, 0, 0, .22),
+              0 6px 8px -6px rgba(43, 36, 32, .55);
+}
+
+/* ao passar o mouse o livro sobe um pouco; a descricao vem do atributo
+   title (tooltip nativo do navegador, sem JavaScript) */
+.lombada:hover { transform: translateY(-6px); }
+
+/* COR = TIPO do livro (uma classe por tipo) */
+.romance  { background: #7b2d3a; }  /* bordo        */
+.misterio { background: #263a5c; }  /* azul profundo */
+.aventura { background: #4f5a2e; }  /* verde-oliva   */
+
+/* ALTURA = ritmo visual (tres alturas fixas, alternadas a gosto).
+   Se um titulo for cortado, use uma classe mais alta. */
+.baixa { height: 200px; }
+.media { height: 228px; }
+.alta  { height: 256px; }
+
+/* ------------------------------------------------------------------ */
+/* CHEGADA - pilha fora de ordem, apoiada na mesa                     */
+/* ------------------------------------------------------------------ */
+.chegada {
+  display: flex;
+  flex-wrap: wrap;             /* as lombadas quebram de linha se faltar espaco */
+  align-items: flex-end;
+  gap: 10px;                   /* folga maior: as tortas nao se sobrepoem */
+  padding-bottom: 10px;
+  border-bottom: 1px dashed rgba(43, 36, 32, .3);
+}
+
+/* leve inclinacao em algumas lombadas (ex.: a cada 3 livros) */
+.torta        { transform: rotate(-1.6deg); }
+.torta:hover  { transform: rotate(-1.6deg) translateY(-6px); }
+
+/* ------------------------------------------------------------------ */
+/* PRATELEIRA - um balde: letra a esquerda, livros em pe, madeira sob  */
+/* ------------------------------------------------------------------ */
+.prateleira {
+  display: flex;
+  flex-wrap: wrap;             /* permite a madeira ocupar a linha de baixo */
+  align-items: flex-end;       /* os livros se apoiam na madeira */
+  margin-bottom: 38px;
+}
+
+.letra {
+  flex: 0 0 72px;              /* largura fixa: alinha todas as prateleiras */
+  padding-bottom: 4px;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 3.4rem;
+  line-height: 1;
+  text-align: center;
+}
+
+/* balde sem livros: a letra quase apaga */
+.vazia { opacity: .25; }
+
+.livros {
+  flex: 1 1 240px;             /* desce para a linha de baixo em tela estreita */
+  min-width: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+/* a barra de madeira: tom claro em cima, borda escura simulando a espessura */
+.madeira {
+  flex: 0 0 100%;              /* ocupa a largura toda, sob letra e livros */
+  height: 11px;
+  background: #7a5a3a;
+  border-bottom: 5px solid #553a22;
+  border-radius: 2px;
+}
+
+/* ------------------------------------------------------------------ */
+/* BOTAO "SEPARAR POR ESTANTE" - truque do checkbox, sem JavaScript   */
+/* O input fica invisivel no topo do body e o <label> e o botao que   */
+/* se ve. Clicar no label marca o input, e o seletor de irmao ~       */
+/* revela a estante. Como e tudo CSS, o HTML gerado pelo C funciona   */
+/* do mesmo jeito.                                                    */
+/* ------------------------------------------------------------------ */
+.gatilho {
+  position: absolute;          /* sai do fluxo mas continua focavel por Tab */
+  opacity: 0;
+  pointer-events: none;
+}
+
+.botao {
+  display: inline-block;
+  margin-bottom: 60px;
+  padding: 11px 22px;
+  border: 1px solid rgba(43, 36, 32, .45);
+  border-radius: 2px;
+  font-size: 11px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background .2s ease, color .2s ease, border-color .2s ease;
+}
+
+.botao:hover { background: rgba(43, 36, 32, .07); }
+
+/* botao aceso enquanto a estante esta aberta */
+.gatilho:checked ~ .botao {
+  background: #2b2420;
+  border-color: #2b2420;
+  color: #f3ece0;
+}
+
+/* contorno para quem navega pelo teclado (Tab + Espaco) */
+.gatilho:focus-visible ~ .botao { outline: 2px solid #7a5a3a; outline-offset: 3px; }
+
+/* a estante so aparece depois do clique */
+.estante { display: none; }
+.gatilho:checked ~ .estante { display: block; }
+
+/* ao abrir, cada prateleira assenta em sequencia: e a leitura visual
+   do algoritmo distribuindo os livros, um balde de cada vez */
+@keyframes assentar {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.gatilho:checked ~ .estante .prateleira { animation: assentar .5s ease both; }
+.gatilho:checked ~ .estante .prateleira:nth-of-type(1) { animation-delay: .05s; }
+.gatilho:checked ~ .estante .prateleira:nth-of-type(2) { animation-delay: .20s; }
+.gatilho:checked ~ .estante .prateleira:nth-of-type(3) { animation-delay: .35s; }
+.gatilho:checked ~ .estante .prateleira:nth-of-type(4) { animation-delay: .50s; }
+.gatilho:checked ~ .estante .prateleira:nth-of-type(5) { animation-delay: .65s; }
+
+/* a pilha de chegada esmaece: esses livros ja foram guardados */
+.secao-chegada { transition: opacity .6s ease; }
+.gatilho:checked ~ .secao-chegada { opacity: .4; }
+
+/* respeita quem configurou o sistema para menos movimento */
+@media (prefers-reduced-motion: reduce) {
+  .lombada, .secao-chegada, .botao { transition: none; }
+  .gatilho:checked ~ .estante .prateleira { animation: none; }
+}
+
+/* ------------------------------------------------------------------ */
+/* RODAPE - legenda das tres cores                                    */
+/* ------------------------------------------------------------------ */
+footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 22px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(43, 36, 32, .18);
+  font-size: 12px;
+  font-weight: 300;
+  color: rgba(43, 36, 32, .7);
+}
+
+/* quadradinho de cor; reaproveita as classes de tipo */
+.amostra {
+  display: inline-block;
+  width: 11px;
+  height: 11px;
+  margin-right: 7px;
+  border-radius: 1px;
+  vertical-align: -1px;
+}
+</style>
+</head>
+<body>
+
+<!-- GATILHO FIXO do botao: checkbox invisivel (ver .gatilho no CSS).
+     Precisa vir ANTES de tudo que ele controla, porque o seletor ~
+     so enxerga irmaos posteriores. -->
+<input type="checkbox" id="separar" class="gatilho">
+
+<!-- CABECALHO FIXO -->
+<header>
+  <h1>A Prateleira Silenciosa</h1>
+  <p class="linha-fina">Catálogo ordenado por bucket sort</p>
+</header>
+
+<section class="secao-chegada">
+  <h2>Chegada</h2>
+  <p class="nota">30 livros recém-chegados, ainda na ordem do arquivo.</p>
+
+  <div class="chegada">
+    <!-- INICIO LIVRO DE CHEGADA (repetir para cada livro, na ordem do CSV) -->
+    <span class="lombada aventura baixa" title="Paul Atreides disputa o controle do planeta deserto de Arrakis">Duna</span>
+    <span class="lombada misterio baixa" title="Simão Bacamarte interna meio vilarejo em seu manicômio">O Alienista</span>
+    <span class="lombada romance baixa torta" title="Winston Smith vive sob a vigilância constante do Grande Irmão">1984</span>
+    <span class="lombada misterio media" title="Um conde vampiro deixa a Transilvânia rumo a Londres">Drácula</span>
+    <span class="lombada romance media" title="A vida miúda de Macabéa, retirante alagoana no Rio">A Hora da Estrela</span>
+    <span class="lombada misterio baixa torta" title="Um frade investiga mortes estranhas em uma abadia medieval">O Nome da Rosa</span>
+    <span class="lombada romance baixa" title="Dona Lola cria quatro filhos na São Paulo dos anos 1920">Éramos Seis</span>
+    <span class="lombada aventura media" title="O capitão Ahab persegue a baleia branca pelos mares">Moby Dick</span>
+    <span class="lombada misterio alta torta" title="Poirot investiga um crime em um trem preso na neve">Assassinato no Expresso Oriente</span>
+    <span class="lombada aventura media" title="Um piloto encontra no deserto um menino de outro planeta">O Pequeno Príncipe</span>
+    <span class="lombada romance baixa" title="Bentinho narra o ciúme que o separa de Capitu">Dom Casmurro</span>
+    <span class="lombada aventura alta torta" title="Phileas Fogg aposta que dá a volta no mundo em 80 dias">A Volta ao Mundo em 80 Dias</span>
+    <span class="lombada romance media" title="Aristóteles investiga o que torna uma vida humana virtuosa">Ética a Nicômaco</span>
+    <span class="lombada misterio media" title="Holmes enfrenta a lenda de um cão demoníaco nos pântanos">O Cão dos Baskerville</span>
+    <span class="lombada romance alta torta" title="Um defunto autor narra com ironia a própria vida">Memórias Póstumas de Brás Cubas</span>
+    <span class="lombada aventura alta" title="Uma missão a Júpiter e o computador HAL 9000">2001 Uma Odisseia no Espaço</span>
+    <span class="lombada romance baixa" title="A vida dos moradores de um cortiço no Rio do século XIX">O Cortiço</span>
+    <span class="lombada romance media torta" title="Elizabeth Bennet e o sr. Darcy entre bailes e mal-entendidos">Orgulho e Preconceito</span>
+    <span class="lombada aventura media" title="Jim Hawkins acha um mapa e embarca atrás de um tesouro">A Ilha do Tesouro</span>
+    <span class="lombada misterio alta" title="Clarice Starling pede ajuda a um psiquiatra canibal">O Silêncio dos Inocentes</span>
+    <span class="lombada aventura media torta" title="Meninos de rua sobrevivem juntos nas areias de Salvador">Capitães da Areia</span>
+    <span class="lombada romance media" title="Riobaldo relembra a vida de jagunço e o amigo Diadorim">Grande Sertão Veredas</span>
+    <span class="lombada misterio baixa" title="Edição comentada da novela de Machado de Assis">O Alienista</span>
+    <span class="lombada romance alta torta" title="A família Joad migra para a Califórnia na Grande Depressão">As Vinhas da Ira</span>
+    <span class="lombada misterio media" title="Dez convidados morrem um a um em uma ilha isolada">E Não Ficou Nenhum</span>
+    <span class="lombada aventura alta" title="O capitão Nemo navega os oceanos no submarino Nautilus">Vinte Mil Léguas Submarinas</span>
+    <span class="lombada romance baixa torta" title="Augusto e Carolina vivem um romance em uma ilha carioca">A Moreninha</span>
+    <span class="lombada misterio alta" title="Robert Langdon segue pistas escondidas em obras de arte">O Código Da Vinci</span>
+    <span class="lombada aventura media" title="Um náufrago sobrevive quase trinta anos em uma ilha deserta">Robinson Crusoé</span>
+    <span class="lombada romance media torta" title="Uma epidemia de cegueira branca desmonta a sociedade">Ensaio sobre a Cegueira</span>
+  </div>
+</section>
+
+<!-- BOTAO FIXO - o <label> aponta para o checkbox la de cima -->
+<label for="separar" class="botao">Separar por estante</label>
+
+<!-- SECAO FIXA: ESTANTE (os baldes) - escondida ate o clique no botao -->
+<section class="estante">
+  <h2>Estante</h2>
+  <p class="nota">Cada prateleira é um balde. Dentro do balde, ordem alfabética.<br>
+    Exemplo estrutural com 5 baldes — a distribuição dos 30 livros fica para o bucket sort.</p>
+
+  <!-- INICIO BALDE (repetir para cada letra) -->
+  <div class="prateleira">
+    <div class="letra">#</div>
+    <div class="livros">
+      <!-- INICIO LIVRO (repetir para cada livro do balde) -->
+      <span class="lombada romance baixa" title="Winston Smith vive sob a vigilância constante do Grande Irmão">1984</span>
+      <span class="lombada aventura media" title="Uma missão a Júpiter e o computador HAL 9000">2001 Uma Odisseia no Espaço</span>
+      <!-- FIM LIVRO -->
+    </div>
+    <div class="madeira"></div>
+  </div>
+  <!-- FIM BALDE -->
+
+  <!-- INICIO BALDE (repetir para cada letra) -->
+  <div class="prateleira">
+    <div class="letra">A</div>
+    <div class="livros">
+      <!-- INICIO LIVRO (repetir para cada livro do balde) -->
+      <span class="lombada romance media" title="A vida miúda de Macabéa, retirante alagoana no Rio">A Hora da Estrela</span>
+      <span class="lombada aventura alta" title="Jim Hawkins acha um mapa e embarca atrás de um tesouro">A Ilha do Tesouro</span>
+      <span class="lombada romance baixa" title="Augusto e Carolina vivem um romance em uma ilha carioca">A Moreninha</span>
+      <span class="lombada aventura media" title="Phileas Fogg aposta que dá a volta no mundo em 80 dias">A Volta ao Mundo em 80 Dias</span>
+      <span class="lombada misterio alta" title="Poirot investiga um crime em um trem preso na neve">Assassinato no Expresso Oriente</span>
+      <!-- FIM LIVRO -->
+    </div>
+    <div class="madeira"></div>
+  </div>
+  <!-- FIM BALDE -->
+
+  <!-- INICIO BALDE (repetir para cada letra) - exemplo de balde VAZIO -->
+  <div class="prateleira">
+    <div class="letra vazia">B</div>
+    <div class="livros">
+      <!-- nenhum livro: o laco nao imprime nada e a prateleira fica vazia -->
+    </div>
+    <div class="madeira"></div>
+  </div>
+  <!-- FIM BALDE -->
+
+  <!-- INICIO BALDE (repetir para cada letra) -->
+  <div class="prateleira">
+    <div class="letra">C</div>
+    <div class="livros">
+      <!-- INICIO LIVRO (repetir para cada livro do balde) -->
+      <span class="lombada aventura media" title="Meninos de rua sobrevivem juntos nas areias de Salvador">Capitães da Areia</span>
+      <span class="lombada romance baixa" title="A saga da família Buendía no povoado de Macondo">Cem Anos de Solidão</span>
+      <!-- FIM LIVRO -->
+    </div>
+    <div class="madeira"></div>
+  </div>
+  <!-- FIM BALDE -->
+
+  <!-- INICIO BALDE (repetir para cada letra) -->
+  <div class="prateleira">
+    <div class="letra">D</div>
+    <div class="livros">
+      <!-- INICIO LIVRO (repetir para cada livro do balde) -->
+      <span class="lombada romance alta" title="Bentinho narra o ciúme que o separa de Capitu">Dom Casmurro</span>
+      <span class="lombada misterio baixa" title="Um conde vampiro deixa a Transilvânia rumo a Londres">Drácula</span>
+      <span class="lombada aventura media" title="Paul Atreides disputa o controle do planeta deserto de Arrakis">Duna</span>
+      <!-- FIM LIVRO -->
+    </div>
+    <div class="madeira"></div>
+  </div>
+  <!-- FIM BALDE -->
+</section>
+
+<!-- RODAPE FIXO -->
+<footer>
+  <span><span class="amostra romance"></span>Romance</span>
+  <span><span class="amostra misterio"></span>Mistério</span>
+  <span><span class="amostra aventura"></span>Aventura</span>
+  <span>Passe o mouse sobre uma lombada para ler a descrição.</span>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A Prateleira Silenciosa</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+
+<header>
+  <h1>A Prateleira Silenciosa</h1>
+  <p class="linha-fina">Catálogo ordenado por bucket sort</p>
+</header>
+
+<!-- Ficha de cadastro: manda POST /api/livros -->
+<section>
+  <h2>Adicionar livro</h2>
+  <p class="nota">O livro entra no fim do data/livros.csv e aparece na chegada.</p>
+
+  <form class="ficha" id="form-livro">
+    <div class="campo">
+      <label for="nome">Nome</label>
+      <input type="text" id="nome" name="nome" maxlength="49" required>
+    </div>
+
+    <div class="campo campo-largo">
+      <label for="descricao">Descrição</label>
+      <input type="text" id="descricao" name="descricao" maxlength="99">
+    </div>
+
+    <div class="campo">
+      <label for="tipo">Tipo</label>
+      <select id="tipo" name="tipo">
+        <option value="Romance">Romance</option>
+        <option value="Misterio">Mistério</option>
+        <option value="Aventura">Aventura</option>
+      </select>
+    </div>
+
+    <button type="submit" class="botao" id="botao-salvar">Adicionar</button>
+  </form>
+
+  <p class="mensagem" id="mensagem"></p>
+</section>
+
+<!-- Chegada: os livros na ordem original do CSV -->
+<section class="secao-chegada" id="secao-chegada">
+  <h2>Chegada</h2>
+  <p class="nota" id="resumo">Carregando o catálogo...</p>
+  <div class="chegada" id="chegada"></div>
+</section>
+
+<!-- O botao revela a estante abaixo -->
+<button type="button" class="botao" id="botao-estante">Visualizar livros</button>
+
+<!-- Estante: os 27 baldes, preenchidos pelo app.js -->
+<section class="estante" id="estante">
+  <h2>Estante</h2>
+  <p class="nota">Cada prateleira é um balde. Dentro do balde, ordem alfabética.</p>
+  <div id="prateleiras"></div>
+</section>
+
+<footer>
+  <span><span class="amostra romance"></span>Romance</span>
+  <span><span class="amostra misterio"></span>Mistério</span>
+  <span><span class="amostra aventura"></span>Aventura</span>
+  <span>Passe o mouse sobre uma lombada para ler a descrição.</span>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>

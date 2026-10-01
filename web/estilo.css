@@ -1,0 +1,303 @@
+/* estilo.css - visual da livraria.                                   */
+/* Derivado de web/modelo.html, que continua servindo de maquete       */
+/* estatica com o CSS embutido.                                       */
+
+* { box-sizing: border-box; }
+
+body {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 56px 24px 64px;
+  background-color: #f3ece0;
+  background-image: repeating-linear-gradient(
+      0deg, rgba(43, 36, 32, .022) 0 1px, transparent 1px 4px);
+  color: #2b2420;
+  font-family: "Inter", sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+
+header {
+  margin-bottom: 52px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid rgba(43, 36, 32, .18);
+}
+
+h1 {
+  margin: 0;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-weight: 500;
+  font-size: 2.7rem;
+  letter-spacing: .01em;
+}
+
+.linha-fina {
+  margin: 8px 0 0;
+  font-size: 11px;
+  font-weight: 300;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: rgba(43, 36, 32, .55);
+}
+
+section { margin-bottom: 60px; }
+
+h2 {
+  margin: 0;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-weight: 500;
+  font-size: 1.6rem;
+}
+
+.nota {
+  margin: 2px 0 26px;
+  font-size: 12px;
+  font-weight: 300;
+  color: rgba(43, 36, 32, .55);
+}
+
+.lombada {
+  writing-mode: vertical-rl;   /* gira o texto: le-se de cima para baixo */
+  width: 30px;
+  padding: 12px 0;
+  /* com o texto girado, o line-height passa a valer na HORIZONTAL.
+     Igualando-o a largura, o titulo fica centrado na lombada. */
+  line-height: 30px;
+  font-size: 11.5px;
+  font-weight: 300;
+  letter-spacing: .05em;
+  text-align: center;          /* centraliza o titulo no eixo vertical */
+  color: #f3ece0;              /* creme sobre a cor do tipo */
+  white-space: nowrap;         /* nunca quebra o titulo em duas colunas */
+  overflow: hidden;            /* titulo maior que a altura e cortado */
+  border-radius: 1px;
+  transform-origin: bottom center;
+  transition: transform .18s ease;
+  /* filetes claros no topo e no pe + sombra na base, como uma lombada real */
+  box-shadow: inset 0  6px 0 -5px rgba(243, 236, 224, .45),
+              inset 0 -6px 0 -5px rgba(5, 5, 4, 0.45),
+              inset -2px 0 0 -1px rgba(0, 0, 0, .22),
+              0 6px 8px -6px rgba(43, 36, 32, .55);
+}
+
+/* ao passar o mouse o livro sobe um pouco; a descricao vem do atributo
+   title (tooltip nativo do navegador, sem JavaScript) */
+.lombada:hover { transform: translateY(-6px); }
+
+/* COR = TIPO do livro (uma classe por tipo) */
+.romance  { background: #7b2d3a; }  /* bordo        */
+.misterio { background: #263a5c; }  /* azul profundo */
+.aventura { background: #4f5a2e; }  /* verde-oliva   */
+
+/* ALTURA = ritmo visual (tres alturas fixas, alternadas a gosto).
+   Se um titulo for cortado, use uma classe mais alta. */
+.baixa { height: 200px; }
+.media { height: 228px; }
+.alta  { height: 256px; }
+
+/* ------------------------------------------------------------------ */
+/* CHEGADA - pilha fora de ordem, apoiada na mesa                     */
+/* ------------------------------------------------------------------ */
+.chegada {
+  display: flex;
+  flex-wrap: wrap;             /* as lombadas quebram de linha se faltar espaco */
+  align-items: flex-end;
+  gap: 10px;                   /* folga maior: as tortas nao se sobrepoem */
+  padding-bottom: 10px;
+  border-bottom: 1px dashed rgba(43, 36, 32, .3);
+}
+
+/* leve inclinacao em algumas lombadas (ex.: a cada 3 livros) */
+.torta        { transform: rotate(-1.6deg); }
+.torta:hover  { transform: rotate(-1.6deg) translateY(-6px); }
+
+/* ------------------------------------------------------------------ */
+/* PRATELEIRA - um balde: letra a esquerda, livros em pe, madeira sob  */
+/* ------------------------------------------------------------------ */
+.prateleira {
+  display: flex;
+  flex-wrap: wrap;             /* permite a madeira ocupar a linha de baixo */
+  align-items: flex-end;       /* os livros se apoiam na madeira */
+  margin-bottom: 38px;
+}
+
+.letra {
+  flex: 0 0 72px;              /* largura fixa: alinha todas as prateleiras */
+  padding-bottom: 4px;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 3.4rem;
+  line-height: 1;
+  text-align: center;
+}
+
+/* balde sem livros: a letra quase apaga */
+.vazia { opacity: .25; }
+
+.livros {
+  flex: 1 1 240px;             /* desce para a linha de baixo em tela estreita */
+  min-width: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+/* a barra de madeira: tom claro em cima, borda escura simulando a espessura */
+.madeira {
+  flex: 0 0 100%;              /* ocupa a largura toda, sob letra e livros */
+  height: 11px;
+  background: #7a5a3a;
+  border-bottom: 5px solid #553a22;
+  border-radius: 2px;
+}
+
+/* ------------------------------------------------------------------ */
+/* BOTAO - aqui e um <button> de verdade, porque a pagina tem JS.     */
+/* (em web/modelo.html o mesmo visual sai do truque do checkbox)      */
+/* ------------------------------------------------------------------ */
+.botao {
+  display: inline-block;
+  margin-bottom: 60px;
+  padding: 11px 22px;
+  border: 1px solid rgba(43, 36, 32, .45);
+  border-radius: 2px;
+  background: transparent;
+  color: #2b2420;
+  font-family: inherit;        /* <button> nao herda a fonte sozinho */
+  font-size: 11px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background .2s ease, color .2s ease, border-color .2s ease;
+}
+
+.botao:hover { background: rgba(43, 36, 32, .07); }
+.botao:focus-visible { outline: 2px solid #7a5a3a; outline-offset: 3px; }
+.botao[disabled] { opacity: .4; cursor: default; }
+
+/* botao aceso enquanto a estante esta aberta */
+.botao.ativo {
+  background: #2b2420;
+  border-color: #2b2420;
+  color: #f3ece0;
+}
+
+/* ------------------------------------------------------------------ */
+/* ESTANTE - escondida ate o clique; o app.js poe a classe .aberta    */
+/* ------------------------------------------------------------------ */
+.estante { display: none; }
+.estante.aberta { display: block; }
+
+/* Cada prateleira assenta em sequencia: e a leitura visual do
+   algoritmo distribuindo os livros, um balde de cada vez. O atraso de
+   cada uma vem do app.js (animation-delay inline), porque agora sao 27
+   baldes e seriam 27 regras aqui. */
+@keyframes assentar {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.estante.aberta .prateleira { animation: assentar .5s ease both; }
+
+/* a pilha de chegada esmaece: esses livros ja foram guardados */
+.secao-chegada { transition: opacity .6s ease; }
+.secao-chegada.guardada { opacity: .4; }
+
+@media (prefers-reduced-motion: reduce) {
+  .lombada, .secao-chegada, .botao { transition: none; }
+  .estante.aberta .prateleira { animation: none; }
+}
+
+/* ------------------------------------------------------------------ */
+/* FORMULARIO - um bloco discreto, como uma ficha de papel            */
+/* ------------------------------------------------------------------ */
+.ficha {
+  display: flex;
+  flex-wrap: wrap;             /* os campos empilham em tela estreita */
+  align-items: flex-end;
+  gap: 18px 24px;
+  padding: 22px 24px;
+  border: 1px solid rgba(43, 36, 32, .18);
+  border-radius: 2px;
+  background: rgba(255, 255, 255, .22);
+}
+
+.campo {
+  flex: 1 1 190px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.campo-largo { flex: 2 1 260px; }
+
+.campo label {
+  font-size: 10px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: rgba(43, 36, 32, .6);
+}
+
+/* campos com linha so embaixo, como escrever sobre papel */
+.campo input,
+.campo select {
+  padding: 7px 2px;
+  border: none;
+  border-bottom: 1px solid rgba(43, 36, 32, .35);
+  border-radius: 0;
+  background: transparent;
+  color: #2b2420;
+  font-family: inherit;
+  font-size: 14px;
+}
+
+.campo input:focus,
+.campo select:focus {
+  outline: none;
+  border-bottom-color: #7a5a3a;
+}
+
+/* o botao da ficha nao leva a margem de 60px do outro */
+.ficha .botao {
+  flex: 0 0 auto;
+  margin-bottom: 0;
+}
+
+/* ------------------------------------------------------------------ */
+/* MENSAGENS - erro de validacao, confirmacao, carregando             */
+/* ------------------------------------------------------------------ */
+.mensagem {
+  margin: 14px 0 0;
+  min-height: 1.2em;           /* reserva a linha: nada salta ao aparecer */
+  font-size: 12px;
+}
+
+.mensagem.erro { color: #7b2d3a; }
+.mensagem.ok   { color: #4f5a2e; }
+
+
+/* ------------------------------------------------------------------ */
+/* RODAPE - legenda das tres cores                                    */
+/* ------------------------------------------------------------------ */
+footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 22px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(43, 36, 32, .18);
+  font-size: 12px;
+  font-weight: 300;
+  color: rgba(43, 36, 32, .7);
+}
+
+/* quadradinho de cor; reaproveita as classes de tipo */
+.amostra {
+  display: inline-block;
+  width: 11px;
+  height: 11px;
+  margin-right: 7px;
+  border-radius: 1px;
+  vertical-align: -1px;
+}
